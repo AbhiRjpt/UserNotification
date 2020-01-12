@@ -8,7 +8,7 @@ public abstract class SingleRowQueryTemplateImpl extends QueryTemplateImpl {
         super(sql);
     }
 
-    public SingleRowQueryTemplateImpl(String sql, Optional<QueryParameter> queryParameter) {
+    public SingleRowQueryTemplateImpl(String sql, QueryParameter queryParameter) {
         super(sql, queryParameter);
     }
 

@@ -1,6 +1,6 @@
 package com.ranag.DBConnection;
 
-import com.ranag.rest.Bean.CommonData;
+import com.ranag.rest.Bean.Commons.CommonData;
 import com.ranag.rest.constant.SystemConstants;
 import org.apache.commons.dbcp2.Utils;
 import java.sql.Connection;

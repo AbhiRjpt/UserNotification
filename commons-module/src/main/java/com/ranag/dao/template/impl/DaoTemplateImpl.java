@@ -15,9 +15,9 @@ public abstract class DaoTemplateImpl {
     protected Optional<QueryParameter> queryParameter = null;
     private boolean autoCommit;
 
-    public DaoTemplateImpl(String sql, Optional<QueryParameter> queryParameter) {
+    public DaoTemplateImpl(String sql, QueryParameter queryParameter) {
         this.sql = sql;
-        this.queryParameter = queryParameter;
+        this.queryParameter = Optional.ofNullable(queryParameter);
         this.autoCommit = true;
         preProcess();
         process();

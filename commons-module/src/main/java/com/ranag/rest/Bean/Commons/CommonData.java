@@ -1,4 +1,4 @@
-package com.ranag.rest.Bean;
+package com.ranag.rest.Bean.Commons;
 
 public class CommonData {
     private int ckMId;

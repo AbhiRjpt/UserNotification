@@ -7,7 +7,7 @@ import java.util.Optional;
 public abstract class QueryTemplateImpl extends DaoTemplateImpl implements QueryTemplate {
     protected int numberOfRecords;
 
-    public QueryTemplateImpl(String sql, Optional<QueryParameter> queryParameter) {
+    public QueryTemplateImpl(String sql, QueryParameter queryParameter) {
         super(sql, queryParameter);
     }
 

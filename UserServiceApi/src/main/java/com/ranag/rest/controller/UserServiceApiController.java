@@ -1,5 +1,9 @@
 package com.ranag.rest.controller;
 
+import com.ranag.rest.Bean.Response.OrgResponseData;
+import com.ranag.rest.service.RequestValidationService;
+import com.ranag.rest.service.RestResponseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,14 +17,18 @@ import java.util.Calendar;
 @RestController
 @RequestMapping("/user")
 public class UserServiceApiController {
+    @Autowired
+    RestResponseService restResponseService;
 
+    @Autowired
+    RequestValidationService requestValidationService;
 
     @GetMapping("/ping")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public String getPing(){
+    public OrgResponseData getPing(){
         System.out.println("Ping Time stamp is : "+ Calendar.getInstance().getTime());
-        return "Ping Time stamp is : "+ Calendar.getInstance().getTime();
+        return restResponseService.createSuccessResponse();
     }
 
     @GetMapping("/userData")
@@ -28,10 +36,18 @@ public class UserServiceApiController {
     @Produces({MediaType.APPLICATION_JSON})
     public Response getUserData(){
         Response response = null;
+        OrgResponseData orgResponseData = null;
+        try{
 
 
 
-        return response;
+           response = restResponseService.createSuccessResponse(orgResponseData);
+            return response;
+        }catch (Exception e){
+            response = restResponseService.createFailureResponse(e,orgResponseData);
+            return response;
+        }
+
     }
 
 }
