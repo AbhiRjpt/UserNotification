@@ -1,4 +1,4 @@
-package com.ranag.rest.service;
+package com.ranag.service;
 
 import com.ranag.dao.impl.UserDaoImpl;
 

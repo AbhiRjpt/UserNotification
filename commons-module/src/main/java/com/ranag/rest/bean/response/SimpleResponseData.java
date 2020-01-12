@@ -1,4 +1,4 @@
-package com.ranag.rest.Bean.Response;
+package com.ranag.rest.bean.response;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

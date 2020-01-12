@@ -1,8 +1,9 @@
 package com.ranag.rest.controller;
 
-import com.ranag.rest.Bean.Response.OrgResponseData;
-import com.ranag.rest.service.RequestValidationService;
-import com.ranag.rest.service.RestResponseService;
+import com.ranag.rest.bean.response.OrgResponseData;
+import com.ranag.service.RequestValidationService;
+import com.ranag.service.RestResponseService;
+import com.ranag.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,28 +24,29 @@ public class UserServiceApiController {
     @Autowired
     RequestValidationService requestValidationService;
 
+    @Autowired
+    UserService userService;
+
     @GetMapping("/ping")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public OrgResponseData getPing(){
-        System.out.println("Ping Time stamp is : "+ Calendar.getInstance().getTime());
+    public OrgResponseData getPing() {
+        System.out.println("Ping Time stamp is : " + Calendar.getInstance().getTime());
         return restResponseService.createSuccessResponse();
     }
 
     @GetMapping("/userData")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getUserData(){
+    public Response getUserData() {
         Response response = null;
         OrgResponseData orgResponseData = null;
-        try{
-
-
-
-           response = restResponseService.createSuccessResponse(orgResponseData);
+        try {
+            orgResponseData = userService.getUserData();
+            response = restResponseService.createSuccessResponse(orgResponseData);
             return response;
-        }catch (Exception e){
-            response = restResponseService.createFailureResponse(e,orgResponseData);
+        } catch (Exception e) {
+            response = restResponseService.createFailureResponse(e, orgResponseData);
             return response;
         }
 

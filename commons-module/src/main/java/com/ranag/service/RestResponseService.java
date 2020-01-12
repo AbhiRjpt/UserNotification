@@ -1,12 +1,12 @@
-package com.ranag.rest.service;
+package com.ranag.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ranag.exception.ExceptionData;
 import com.ranag.exception.InternalErrorCodes;
 import com.ranag.exception.InternalException;
-import com.ranag.rest.Bean.Response.OrgResponseData;
-import com.ranag.rest.Bean.Response.SimpleResponseData;
+import com.ranag.rest.bean.response.OrgResponseData;
+import com.ranag.rest.bean.response.SimpleResponseData;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
