@@ -1,6 +1,6 @@
 package com.ranag.rest.bean.request;
 
-import com.ranag.rest.bean.common.UserEventData;
+import com.ranag.rest.bean.commons.UserEventData;
 
 public class UserEventRequestData extends OrgRequestData {
     private UserEventData userEventData;

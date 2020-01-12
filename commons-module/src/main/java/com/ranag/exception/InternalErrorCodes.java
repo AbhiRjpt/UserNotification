@@ -7,10 +7,12 @@ public class InternalErrorCodes {
 
     public static final int INVALID_USER_ID = 2001;
     public static final int INVALID_USER_CREDENTIALS = 2002;
+    public static final int INVALID_BILL_ID = 2003;
 
     public static final int INTERNAL_SERVER_ERROR = 3001;
     public static final int TEMPLATE_NAME_ALREADY_EXITS = 3002;
     public static final int API_FAILED = 3003;
+    public static final int BILL_ID_MISSING = 3004;
 
     public static final int INVALID_USER_ROLE = 4001;
     public static final int NOT_COMPATIBLE_ROLE = 4002;

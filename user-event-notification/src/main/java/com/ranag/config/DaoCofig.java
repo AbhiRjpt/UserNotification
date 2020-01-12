@@ -1,6 +1,7 @@
 package com.ranag.config;
 
 import com.ranag.dao.impl.UserDaoImpl;
+import com.ranag.rest.service.PushNotificationService;
 import com.ranag.service.RequestValidationService;
 import com.ranag.service.RestResponseService;
 import org.springframework.context.annotation.Bean;
@@ -21,5 +22,10 @@ public class DaoCofig {
     @Bean
     public RequestValidationService requestValidationService(){
         return new RequestValidationService();
+    }
+
+    @Bean
+    public PushNotificationService pushNotificationService(){
+        return new PushNotificationService();
     }
 }

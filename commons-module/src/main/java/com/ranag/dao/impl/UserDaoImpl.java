@@ -1,12 +1,16 @@
 package com.ranag.dao.impl;
 
+import com.ranag.dao.template.impl.InsertTemplateImpl;
 import com.ranag.dao.template.impl.QueryParameter;
 import com.ranag.dao.template.impl.QueryTemplateImpl;
 import com.ranag.dao.template.impl.SingleRowQueryTemplateImpl;
 import com.ranag.rest.bean.commons.UserData;
+import com.ranag.rest.bean.commons.UserEventData;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class UserDaoImpl {
 
@@ -76,5 +80,107 @@ public class UserDaoImpl {
             }
         };
         return userFcmToken[0];
+    }
+
+    public int storeUserBillPaymentData(UserEventData eventData) {
+        final int[] billId = {0};
+        String sql = "INSERT INTO UserBillPaymentData(userid,noun,ts,latlong,verb,timespent,bank,merchantid,paymentValue,paymentMode) " +
+                "VALUES(?,?,?,?,?,?,?,?,?,?)";
+        QueryParameter queryParameter = new QueryParameter()
+                .setInt(eventData.getUserid())
+                .setString(eventData.getNoun().toString())
+                .setString(eventData.getTs())
+                .setString(eventData.getLatlong())
+                .setString(eventData.getVerb().toString())
+                .setInt(eventData.getTimespent())
+                .setString(eventData.getProperties().getBank())
+                .setInt(eventData.getProperties().getMerchantid())
+                .setDouble(eventData.getProperties().getValue())
+                .setString(eventData.getProperties().getMode().toString());
+
+        new InsertTemplateImpl(sql,queryParameter) {
+            @Override
+            public void processResult() throws Exception {
+                billId[0] = this.resultSet.getInt(1);
+            }
+        };
+        return billId[0];
+    }
+
+    public int storeUserFeedBackData(UserEventData eventData) {
+        final int[] feedBackId = {0};
+        String sql = "INSERT INTO UserPaymetFeedBackData(userid,userBillPaymentId,noun,ts,latlong,verb,timespent,userFeedbackText) " +
+                "VALUES(?,?,?,?,?,?,?,?)";
+        QueryParameter queryParameter = new QueryParameter()
+                .setInt(eventData.getUserid())
+                .setInt(eventData.getBillId())
+                .setString(eventData.getNoun().toString())
+                .setString(eventData.getTs())
+                .setString(eventData.getLatlong())
+                .setString(eventData.getVerb().toString())
+                .setInt(eventData.getTimespent())
+                .setString(eventData.getProperties().getText());
+
+        new InsertTemplateImpl(sql,queryParameter) {
+            @Override
+            public void processResult() throws Exception {
+                feedBackId[0] = this.resultSet.getInt(1);
+            }
+        };
+        return feedBackId[0];
+    }
+
+    public boolean checkUserBillId(int billId,int userId) {
+        final boolean[] validBillId = {false};
+        String sql = "Select userid,userBillPaymentId FROM UserBillPaymentData WHERE userid = ? AND userBillPaymentId = ?";
+        QueryParameter queryParameter = new QueryParameter().setInt(userId).setInt(billId);
+        new SingleRowQueryTemplateImpl(sql,queryParameter) {
+            @Override
+            public void processResult() throws Exception {
+                if(this.resultSet.getInt("userBillPaymentId") == billId){
+                    validBillId[0] = true;
+                }
+            }
+        };
+        return validBillId[0];
+    }
+
+    public int getBillCountForUser(int userid) {
+        final int[] billCount = {0};
+        String sql = "Select COUNT(userBillPaymentId) as billCount from UserBillPaymentData where userid = ?";
+        QueryParameter queryParameter = new QueryParameter().setInt(userid);
+        new SingleRowQueryTemplateImpl(sql,queryParameter) {
+            @Override
+            public void processResult() throws Exception {
+                billCount[0] = this.resultSet.getInt("billCount");
+            }
+        };
+        return billCount[0];
+    }
+
+    public Map<Integer,Double> getUserPaymentAndTimeStampMap(int userid) {
+        Map<Integer,Double> userPaymentAndTimeStampMap = new HashMap<>();
+        String sql = "Select userBillPaymentId,paymentValue from UserBillPaymentData where userid = ?  ORDER BY userBillPaymentId  DESC";
+        QueryParameter queryParameter = new QueryParameter().setInt(userid);
+        new QueryTemplateImpl(sql,queryParameter) {
+            @Override
+            public void processResult() throws Exception {
+                userPaymentAndTimeStampMap.put(this.resultSet.getInt("userBillPaymentId"),this.resultSet.getDouble("paymentValue"));
+            }
+        };
+        return userPaymentAndTimeStampMap;
+    }
+
+    public List<Long> getUserPaymentTimeStamp(int userId,int first_billId,int last_BillId){
+        List<Long> userPaymentTimeStamp = new LinkedList<>();
+        String sql = "Select ts from UserBillPaymentData where userid = ? and  userBillPaymentId in (?,?) ORDER by userBillPaymentId DESC";
+        QueryParameter queryParameter = new QueryParameter().setInt(userId).setInt(first_billId).setInt(last_BillId);
+        new QueryTemplateImpl(sql, queryParameter) {
+            @Override
+            public void processResult() throws Exception {
+                userPaymentTimeStamp.add(Long.parseLong(this.resultSet.getString("ts")));
+            }
+        };
+        return userPaymentTimeStamp;
     }
 }

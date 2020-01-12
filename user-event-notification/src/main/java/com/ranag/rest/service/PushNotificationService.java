@@ -105,6 +105,14 @@ public class PushNotificationService {
                     builder.append("IFANOW");
                 }
 
+                break;
+            case PUBLIC_NOTIFICATION:
+                if(platform == Platform.APNS){
+                    builder.append(mobileNotificationData.getData());
+                }else if (platform == Platform.GCM){
+                    builder.append("IFANOW");
+                }
+
                 if (builder.toString().isEmpty()){
                     builder.append("IFANOW");
                 }

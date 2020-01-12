@@ -1,6 +1,5 @@
 package com.ranag.DBConnection;
 
-import com.ranag.rest.bean.commons.CommonData;
 import com.ranag.rest.constant.SystemConstants;
 import org.apache.commons.dbcp2.Utils;
 import java.sql.Connection;
@@ -49,38 +48,38 @@ public class DbConnectionPoolManager {
         return dbConnectionPool.getConnection();
     }
 
-    public static void getData(){
-        List<CommonData> commonDataList = new LinkedList<>();
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        String sql;
-        try{
-            connection = DbConnectionPoolManager.getInstance().getDBConnection();
-            sql = "Select * from CricketMatch";
-            preparedStatement =connection.prepareStatement(sql);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                CommonData commonData = new CommonData();
-                commonData.setCkMId(resultSet.getInt("ckMId"));
-                commonData.setBname(resultSet.getString("bname"));
-                commonData.setRunsMade(resultSet.getInt("RunsMade"));
-                commonData.setMatchDate(resultSet.getString("MatchDate"));
-                commonDataList.add(commonData);
-            }
-            System.out.println(commonDataList);
-        }catch (Exception e){
-
-        }finally {
-            Utils.closeQuietly(resultSet);
-            Utils.closeQuietly(preparedStatement);
-            Utils.closeQuietly(connection);
-        }
-    }
+//    public static void getData(){
+//        List<CommonData> commonDataList = new LinkedList<>();
+//        Connection connection = null;
+//        PreparedStatement preparedStatement = null;
+//        ResultSet resultSet = null;
+//        String sql;
+//        try{
+//            connection = DbConnectionPoolManager.getInstance().getDBConnection();
+//            sql = "Select * from CricketMatch";
+//            preparedStatement =connection.prepareStatement(sql);
+//            resultSet = preparedStatement.executeQuery();
+//            while (resultSet.next()) {
+//                CommonData commonData = new CommonData();
+//                commonData.setCkMId(resultSet.getInt("ckMId"));
+//                commonData.setBname(resultSet.getString("bname"));
+//                commonData.setRunsMade(resultSet.getInt("RunsMade"));
+//                commonData.setMatchDate(resultSet.getString("MatchDate"));
+//                commonDataList.add(commonData);
+//            }
+//            System.out.println(commonDataList);
+//        }catch (Exception e){
+//
+//        }finally {
+//            Utils.closeQuietly(resultSet);
+//            Utils.closeQuietly(preparedStatement);
+//            Utils.closeQuietly(connection);
+//        }
+//    }
 
     public static void main(String[] args) {
         System.out.println("Printing DataList");
-        getData();
+//        getData();
     }
 
 }

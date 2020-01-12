@@ -1,4 +1,4 @@
-package com.ranag.rest.bean.common;
+package com.ranag.rest.bean.commons;
 
 public class PropertyData {
     private String bank;
