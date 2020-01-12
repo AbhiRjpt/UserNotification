@@ -1,8 +1,8 @@
 package com.ranag.rest.bean.commons;
 
 public class UserData {
-   private int userkey;
-   private String userid;
+   private int userid;
+   private String userkey;
    private String pwd_hash;
    private String fname;
    private String lname;
@@ -28,22 +28,23 @@ public class UserData {
    private boolean isdeleted;
    private String deactivatedDate;
    private boolean testUser;
+   private boolean operator;
 
-    public int getUserkey() {
-        return userkey;
-    }
-
-    public UserData setUserkey(int userkey) {
-        this.userkey = userkey;
-        return this;
-    }
-
-    public String getUserid() {
+    public int getUserid() {
         return userid;
     }
 
-    public UserData setUserid(String userid) {
+    public UserData setUserid(int userid) {
         this.userid = userid;
+        return this;
+    }
+
+    public String getUserkey() {
+        return userkey;
+    }
+
+    public UserData setUserkey(String userkey) {
+        this.userkey = userkey;
         return this;
     }
 
@@ -272,12 +273,20 @@ public class UserData {
         return this;
     }
 
+    public boolean isOperator() {
+        return operator;
+    }
+
+    public UserData setOperator(boolean operator) {
+        this.operator = operator;
+        return this;
+    }
 
     @Override
     public String toString() {
         return "UserData{" +
-                "userkey=" + userkey +
-                ", userid='" + userid + '\'' +
+                "userid=" + userid +
+                ", userkey='" + userkey + '\'' +
                 ", pwd_hash='" + pwd_hash + '\'' +
                 ", fname='" + fname + '\'' +
                 ", lname='" + lname + '\'' +
@@ -303,6 +312,7 @@ public class UserData {
                 ", isdeleted=" + isdeleted +
                 ", deactivatedDate='" + deactivatedDate + '\'' +
                 ", testUser=" + testUser +
+                ", operator=" + operator +
                 '}';
     }
 }

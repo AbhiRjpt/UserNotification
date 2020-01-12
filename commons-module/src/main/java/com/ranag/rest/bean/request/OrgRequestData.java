@@ -3,7 +3,7 @@ package com.ranag.rest.bean.request;
 import com.ranag.rest.constant.DeviceInfoData;
 
 public class OrgRequestData {
-    protected String userId;
+    protected int userid;
     protected int version;
     protected String appVersion;
     protected DeviceInfoData deviceInfoData;
@@ -12,12 +12,12 @@ public class OrgRequestData {
     protected String deviceToken;
     protected String fcmToken;
 
-    public String getUserId() {
-        return userId;
+    public int getUserid() {
+        return userid;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setUserid(int userid) {
+        this.userid = userid;
     }
 
     public int getVersion() {
@@ -79,7 +79,7 @@ public class OrgRequestData {
     @Override
     public String toString() {
         return "OrgRequestData{" +
-                "userId='" + userId + '\'' +
+                "userid=" + userid +
                 ", version=" + version +
                 ", appVersion='" + appVersion + '\'' +
                 ", deviceInfoData=" + deviceInfoData +

@@ -1,13 +1,14 @@
 package com.ranag.rest.controller;
 
+import com.ranag.exception.InternalErrorCodes;
+import com.ranag.exception.InternalException;
+import com.ranag.rest.bean.request.UserEventRequestData;
 import com.ranag.rest.bean.response.OrgResponseData;
 import com.ranag.service.RequestValidationService;
 import com.ranag.service.RestResponseService;
 import com.ranag.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -52,5 +53,29 @@ public class UserServiceApiController {
         }
 
     }
+
+    @PostMapping("/userEvent")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response submitUserEvent(@RequestBody UserEventRequestData requestData) {
+        Response response = null;
+        OrgResponseData orgResponseData = null;
+        try {
+
+            System.out.println("-----------------USER DATA-------------------");
+            if((!requestValidationService.validateUserId(requestData.getUserid())) && (!requestValidationService.validateUserId(requestData.getUserEventData().getUserid()))) {
+                throw new InternalException("UserId is not valid,Please try again.", InternalErrorCodes.INVALID_USER_ID);
+            }
+            orgResponseData = userService.submitUserEvent(requestData);
+            response = restResponseService.createSuccessResponse(orgResponseData);
+            return response;
+        } catch (Exception e) {
+            response = restResponseService.createFailureResponse(e, orgResponseData);
+            return response;
+        }
+
+    }
+
+
 
 }

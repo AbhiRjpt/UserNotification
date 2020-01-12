@@ -4,7 +4,7 @@ import com.ranag.dao.impl.UserDaoImpl;
 
 public class RequestValidationService {
 
-    public boolean validateUserId(String userId){
+    public boolean validateUserId(int userId){
         UserDaoImpl userDao = new UserDaoImpl();
         if(userDao.getUserKey(userId) > 0){
             return true;

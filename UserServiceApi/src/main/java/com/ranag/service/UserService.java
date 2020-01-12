@@ -5,11 +5,12 @@ import com.ranag.common.restClient.OrgRestClientService;
 import com.ranag.dao.impl.UserDaoImpl;
 import com.ranag.exception.InternalErrorCodes;
 import com.ranag.exception.InternalException;
-import com.ranag.rest.bean.commons.MobileNotificationType;
 import com.ranag.rest.bean.commons.UserData;
 import com.ranag.rest.bean.request.SendPushNotificationRequestData;
+import com.ranag.rest.bean.request.UserEventRequestData;
 import com.ranag.rest.bean.response.OrgResponseData;
 import com.ranag.rest.bean.response.UserDbResponseData;
+import com.ranag.rest.bean.response.UserEventResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,14 +34,14 @@ public class UserService {
         List<UserData> userDataList = userDao.fetchUserData();
         System.out.println("UserDataList: "+userDataList);
         responseData.setUserData(userDataList);
-        sendNotificationToUser();
+//        sendNotificationToUser();
 
         return responseData;
     }
 
-    private void sendNotificationToUser() throws Exception {
+    private void sendNotificationToUser(SendPushNotificationRequestData pushNotificationRequestData) throws Exception {
         System.out.println("---------------SENDING NOTIFICATION-------------");
-        SendPushNotificationRequestData pushNotificationRequestData = new SendPushNotificationRequestData("TestMessage", TEST_NOTIFICATION,"testImg.png", Arrays.asList("abhi"),"DEV_ENVIRONMENT",1);
+//        SendPushNotificationRequestData pushNotificationRequestData = new SendPushNotificationRequestData("TestMessage", TEST_NOTIFICATION,"testImg.png", Arrays.asList(1),"DEV_ENVIRONMENT",0);
         OrgRestClient orgRestClient = new OrgRestClientService().getRestClient();
         String uri = "/push";
         OrgResponseData responseData = orgRestClient.post(uri,pushNotificationRequestData,OrgResponseData.class);
@@ -56,5 +57,15 @@ public class UserService {
             }
             throw new InternalException("Operation Failed: " + error, InternalErrorCodes.API_FAILED);
         }
+    }
+
+    public OrgResponseData submitUserEvent(UserEventRequestData requestData) {
+        UserEventResponseData responseData = new UserEventResponseData();
+        if((requestData != null) && (requestData.getUserEventData() != null)){
+            
+
+
+        }
+        return responseData;
     }
 }

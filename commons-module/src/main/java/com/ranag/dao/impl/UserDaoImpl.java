@@ -10,17 +10,17 @@ import java.util.List;
 
 public class UserDaoImpl {
 
-    public int getUserKey(String userId) {
-        final int[] userKey = {0};
-        String sql = "Select userkey from UserData where userId = ?";
-        QueryParameter queryParameter = new QueryParameter().setString(userId);
+    public int getUserKey(int userId) {
+        final int[] userid = {0};
+        String sql = "Select userid from UserData where userid = ?";
+        QueryParameter queryParameter = new QueryParameter().setInt(userId);
         new SingleRowQueryTemplateImpl(sql, queryParameter) {
             @Override
             public void processResult() throws Exception {
-                userKey[0] = this.resultSet.getInt("userkey");
+                userid[0] = this.resultSet.getInt("userid");
             }
         };
-        return userKey[0];
+        return userid[0];
     }
 
     public List<UserData> fetchUserData() {
@@ -31,8 +31,8 @@ public class UserDaoImpl {
             @Override
             public void processResult() throws Exception {
                 userDataList.add(new UserData()
-                        .setUserkey(this.resultSet.getInt("userkey"))
-                        .setUserid(this.resultSet.getString("userid"))
+                        .setUserkey(this.resultSet.getString("userkey"))
+                        .setUserid(this.resultSet.getInt("userid"))
                         .setPwd_hash(this.resultSet.getString("pwd_hash"))
                         .setFname(this.resultSet.getString("fname"))
                         .setLname(this.resultSet.getString("lname"))
@@ -56,9 +56,25 @@ public class UserDaoImpl {
                         .setAppVersion(this.resultSet.getString("appVersion"))
                         .setIsdeleted(this.resultSet.getBoolean("isdeleted"))
                         .setDeactivatedDate(this.resultSet.getString("deactivatedDate"))
-                        .setTestUser(this.resultSet.getBoolean("testUser")));
+                        .setTestUser(this.resultSet.getBoolean("testUser"))
+                        .setOperator(this.resultSet.getBoolean("isOperator"))
+                );
             }
         };
         return userDataList;
+    }
+
+
+    public String getUserFcmToken(int userid){
+        final String[] userFcmToken = {""};
+        String sql = "Select userid,fcmToken from UserData WHERE userid = ?";
+        QueryParameter queryParameter = new QueryParameter().setInt(userid);
+        new SingleRowQueryTemplateImpl(sql,queryParameter) {
+            @Override
+            public void processResult() throws Exception {
+                userFcmToken[0] = this.resultSet.getString("fcmToken");
+            }
+        };
+        return userFcmToken[0];
     }
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ranag.rest.bean.request.SendPushNotificationRequestData;
 import com.ranag.rest.bean.response.OrgResponseData;
 import com.ranag.rest.bean.response.SimpleResponseData;
+import com.ranag.rest.service.PushNotificationService;
 import com.ranag.service.RestResponseService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +25,9 @@ public class UserNotificationController {
     @Autowired
     RestResponseService restResponseService;
 
+    @Autowired
+    PushNotificationService pushNotificationService;
+
     @GetMapping("/ping")
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
@@ -42,6 +46,7 @@ public class UserNotificationController {
         OrgResponseData orgResponseData = new SimpleResponseData();
         try {
             System.out.println("------>>> NOTIFICATION SERVER TO SEND NOTIFICATION <<<------");
+            pushNotificationService.sendPushNotificationToUser(pushNotificationRequestData);
             response = restResponseService.createSuccessResponse(orgResponseData);
             return response;
         }catch (Exception e){

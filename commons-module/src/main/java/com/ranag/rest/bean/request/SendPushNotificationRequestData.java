@@ -8,19 +8,19 @@ public class SendPushNotificationRequestData extends OrgRequestData {
     private String messageText;
     private MobileNotificationType mobileNotificationType;
     private String imageURL;
-    private List<String> userList;
+    private List<Integer> userList;
     private String environment;
-    private int notificationRequestId;
+    private int id;
 
     public SendPushNotificationRequestData() {}
 
-    public SendPushNotificationRequestData(String messageText, MobileNotificationType mobileNotificationType, String imageURL, List<String> userList, String environment, int notificationRequestId) {
+    public SendPushNotificationRequestData(String messageText, MobileNotificationType mobileNotificationType, String imageURL, List<Integer> userList, String environment,int id) {
         this.messageText = messageText;
         this.mobileNotificationType = mobileNotificationType;
         this.imageURL = imageURL;
         this.userList = userList;
         this.environment = environment;
-        this.notificationRequestId = notificationRequestId;
+        this.id = id;
     }
 
     public String getMessageText() {
@@ -47,11 +47,11 @@ public class SendPushNotificationRequestData extends OrgRequestData {
         this.imageURL = imageURL;
     }
 
-    public List<String> getUserList() {
+    public List<Integer> getUserList() {
         return userList;
     }
 
-    public void setUserList(List<String> userList) {
+    public void setUserList(List<Integer> userList) {
         this.userList = userList;
     }
 
@@ -63,12 +63,12 @@ public class SendPushNotificationRequestData extends OrgRequestData {
         this.environment = environment;
     }
 
-    public int getNotificationRequestId() {
-        return notificationRequestId;
+    public int getId() {
+        return id;
     }
 
-    public void setNotificationRequestId(int notificationRequestId) {
-        this.notificationRequestId = notificationRequestId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class SendPushNotificationRequestData extends OrgRequestData {
                 ", imageURL='" + imageURL + '\'' +
                 ", userList=" + userList +
                 ", environment='" + environment + '\'' +
-                ", notificationRequestId=" + notificationRequestId +
+                ", id=" + id +
                 '}';
     }
 }
