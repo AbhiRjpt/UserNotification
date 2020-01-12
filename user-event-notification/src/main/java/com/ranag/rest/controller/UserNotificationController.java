@@ -1,13 +1,15 @@
 package com.ranag.rest.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ranag.rest.bean.request.SendPushNotificationRequestData;
 import com.ranag.rest.bean.response.OrgResponseData;
 import com.ranag.rest.bean.response.SimpleResponseData;
 import com.ranag.service.RestResponseService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -18,6 +20,7 @@ import java.util.Calendar;
 @RestController
 @RequestMapping("/notification")
 public class UserNotificationController {
+    public static final Logger log = LogManager.getLogger(UserNotificationController.class);
     @Autowired
     RestResponseService restResponseService;
 
@@ -32,7 +35,9 @@ public class UserNotificationController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @PostMapping("/push")
-    public Response sendPushNotion(){
+    public Response sendPushNotion(@RequestBody SendPushNotificationRequestData pushNotificationRequestData) throws JsonProcessingException {
+        log.debug("RequestData:{}",pushNotificationRequestData);
+        System.out.println(new ObjectMapper().writeValueAsString(pushNotificationRequestData));
         Response response = null;
         OrgResponseData orgResponseData = new SimpleResponseData();
         try {

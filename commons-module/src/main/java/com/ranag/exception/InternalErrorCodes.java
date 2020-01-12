@@ -10,6 +10,7 @@ public class InternalErrorCodes {
 
     public static final int INTERNAL_SERVER_ERROR = 3001;
     public static final int TEMPLATE_NAME_ALREADY_EXITS = 3002;
+    public static final int API_FAILED = 3003;
 
     public static final int INVALID_USER_ROLE = 4001;
     public static final int NOT_COMPATIBLE_ROLE = 4002;

@@ -1,13 +1,22 @@
 package com.ranag.service;
 
+import com.ranag.common.restClient.OrgRestClient;
+import com.ranag.common.restClient.OrgRestClientService;
 import com.ranag.dao.impl.UserDaoImpl;
+import com.ranag.exception.InternalErrorCodes;
+import com.ranag.exception.InternalException;
+import com.ranag.rest.bean.commons.MobileNotificationType;
 import com.ranag.rest.bean.commons.UserData;
+import com.ranag.rest.bean.request.SendPushNotificationRequestData;
 import com.ranag.rest.bean.response.OrgResponseData;
 import com.ranag.rest.bean.response.UserDbResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
+
+import static com.ranag.rest.bean.commons.MobileNotificationType.*;
 
 @Component
 public class UserService {
@@ -20,9 +29,30 @@ public class UserService {
         userDao = new UserDaoImpl();
     }
 
-    public OrgResponseData getUserData() {
+    public OrgResponseData getUserData() throws Exception {
         List<UserData> userDataList = userDao.fetchUserData();
         responseData.setUserData(userDataList);
+        sendNotificationToUser();
+
         return responseData;
+    }
+
+    private void sendNotificationToUser() throws Exception {
+        SendPushNotificationRequestData pushNotificationRequestData = new SendPushNotificationRequestData("TestMessage", TEST_NOTIFICATION,"testImg.png", Arrays.asList("abhi"),"DEV_ENVIRONMENT",1);
+        OrgRestClient orgRestClient = new OrgRestClientService().getRestClient();
+        String uri = "/push";
+        OrgResponseData responseData = orgRestClient.post(uri,pushNotificationRequestData,OrgResponseData.class);
+        checkResponse(responseData);
+    }
+
+    private void checkResponse(OrgResponseData resp) throws InternalException {
+        System.out.println("resp: "+ resp);
+        if (resp == null || !resp.isSuccess()) {
+            String error = "INTERNAL SERVER ERROR";
+            if (resp != null) {
+                error = resp.getError();
+            }
+            throw new InternalException("Operation Failed: " + error, InternalErrorCodes.API_FAILED);
+        }
     }
 }
