@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public abstract class InsertTemplateImpl extends DaoTemplateImpl implements InsertTemplate {
 
-    public InsertTemplateImpl(String sql, Optional<QueryParameter> queryParameter) {
+    public InsertTemplateImpl(String sql, QueryParameter queryParameter) {
         super(sql, queryParameter);
     }
 

@@ -42,6 +42,7 @@ public class UserServiceApiController {
         Response response = null;
         OrgResponseData orgResponseData = null;
         try {
+            System.out.println("-----------------USER DATA-------------------");
             orgResponseData = userService.getUserData();
             response = restResponseService.createSuccessResponse(orgResponseData);
             return response;

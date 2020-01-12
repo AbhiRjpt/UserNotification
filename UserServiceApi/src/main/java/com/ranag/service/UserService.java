@@ -31,6 +31,7 @@ public class UserService {
 
     public OrgResponseData getUserData() throws Exception {
         List<UserData> userDataList = userDao.fetchUserData();
+        System.out.println("UserDataList: "+userDataList);
         responseData.setUserData(userDataList);
         sendNotificationToUser();
 
@@ -38,6 +39,7 @@ public class UserService {
     }
 
     private void sendNotificationToUser() throws Exception {
+        System.out.println("---------------SENDING NOTIFICATION-------------");
         SendPushNotificationRequestData pushNotificationRequestData = new SendPushNotificationRequestData("TestMessage", TEST_NOTIFICATION,"testImg.png", Arrays.asList("abhi"),"DEV_ENVIRONMENT",1);
         OrgRestClient orgRestClient = new OrgRestClientService().getRestClient();
         String uri = "/push";

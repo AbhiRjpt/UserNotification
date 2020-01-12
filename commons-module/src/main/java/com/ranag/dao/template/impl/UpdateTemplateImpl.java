@@ -12,7 +12,7 @@ public class UpdateTemplateImpl extends DaoTemplateImpl implements UpdateTemplat
         this(sql,null);
     }
 
-    public UpdateTemplateImpl(String sql, Optional<QueryParameter> queryParameter) {
+    public UpdateTemplateImpl(String sql, QueryParameter queryParameter) {
         super(sql, queryParameter);
     }
 

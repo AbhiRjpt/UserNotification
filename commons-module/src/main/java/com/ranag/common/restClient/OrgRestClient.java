@@ -4,9 +4,9 @@ import com.ranag.common.JsonConverter;
 import com.ranag.exception.InternalException;
 import com.ranag.rest.bean.request.OrgRequestData;
 import com.ranag.rest.bean.response.OrgResponseData;
-import com.sun.deploy.config.ClientConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 
 import javax.net.ssl.*;
