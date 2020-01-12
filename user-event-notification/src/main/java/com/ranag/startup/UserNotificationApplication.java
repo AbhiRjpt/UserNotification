@@ -1,4 +1,4 @@
-package com.ranag.rest.startup;
+package com.ranag.startup;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -14,11 +14,11 @@ public class UserNotificationApplication extends SpringBootServletInitializer {
     }
 
     private static SpringApplicationBuilder configureApplication(SpringApplicationBuilder builder){
-        System.out.println("-----------=========== INITIALIZING SPRINGBOOT APPLICATION =========---------------");
+        System.out.println("-----------=========== INITIALIZING SPRINGBOOT APPLICATION For UserNotification =========---------------");
         return builder.sources(UserNotificationApplication.class);
     }
 
     public static void main(String[] args) {
-        configureApplication(new SpringApplicationBuilder()).run(args);
+//        configureApplication(new SpringApplicationBuilder()).run(args);
     }
 }
