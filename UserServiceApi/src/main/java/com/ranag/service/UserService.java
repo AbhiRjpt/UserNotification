@@ -24,8 +24,9 @@ public class UserService {
         return this;
     }
 
-    public void getUserData(){
+   public void fetchUserData(){
 
-    }
+
+   }
 
 }
