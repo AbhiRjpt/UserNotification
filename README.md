@@ -6,6 +6,8 @@
 #Java version 1.8
 #MySQL version 5.7+
 #SpringBoot Config
+#LocalHost port : 8080 for tomcat
+#LocalHost port : 3306 for sql Server And DB Name used: TestDB
 
 #Modules:
 
