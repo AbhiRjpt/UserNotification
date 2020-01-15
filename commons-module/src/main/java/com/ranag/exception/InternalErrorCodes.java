@@ -13,6 +13,7 @@ public class InternalErrorCodes {
     public static final int TEMPLATE_NAME_ALREADY_EXITS = 3002;
     public static final int API_FAILED = 3003;
     public static final int BILL_ID_MISSING = 3004;
+    public static final int USER_CREATION_FAILED = 3005;
 
     public static final int INVALID_USER_ROLE = 4001;
     public static final int NOT_COMPATIBLE_ROLE = 4002;
@@ -22,6 +23,7 @@ public class InternalErrorCodes {
 
     public static final int NO_USERID_IN_REQUEST = 5001;
     public static final int OPERATION_NOT_PERMITTED = 5002;
+    public static final int USERKEY_OR_PASSWORD_MISSING = 5003;
 
 
 

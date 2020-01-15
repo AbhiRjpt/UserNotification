@@ -81,6 +81,7 @@ public class RestResponseService {
 
                 case InternalErrorCodes.NO_USERID_IN_REQUEST:
                 case InternalErrorCodes.OPERATION_NOT_PERMITTED:
+                case InternalErrorCodes.USERKEY_OR_PASSWORD_MISSING:
                     orgResponseData.getExceptionData().setHttpErrorCode(Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
                     orgResponseData.getExceptionData().setHttpStatus(Response.Status.METHOD_NOT_ALLOWED);
                     response = Response.status(Response.Status.METHOD_NOT_ALLOWED)
@@ -101,6 +102,9 @@ public class RestResponseService {
 
 
                 case InternalErrorCodes.TEMPLATE_NAME_ALREADY_EXITS:
+                case InternalErrorCodes.API_FAILED:
+                case InternalErrorCodes.USER_CREATION_FAILED:
+                case InternalErrorCodes.BILL_ID_MISSING:
                     orgResponseData.getExceptionData().setHttpErrorCode(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
                     orgResponseData.getExceptionData().setHttpStatus(Response.Status.INTERNAL_SERVER_ERROR);
                     response = Response.status(Response.Status.INTERNAL_SERVER_ERROR)

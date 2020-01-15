@@ -1,11 +1,10 @@
 package com.ranag.dao.impl;
 
-import com.ranag.dao.template.impl.InsertTemplateImpl;
-import com.ranag.dao.template.impl.QueryParameter;
-import com.ranag.dao.template.impl.QueryTemplateImpl;
-import com.ranag.dao.template.impl.SingleRowQueryTemplateImpl;
+import com.ranag.dao.template.UpdateTemplate;
+import com.ranag.dao.template.impl.*;
 import com.ranag.rest.bean.commons.UserData;
 import com.ranag.rest.bean.commons.UserEventData;
+import com.ranag.rest.bean.request.UserCreationRequestData;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -182,5 +181,44 @@ public class UserDaoImpl {
             }
         };
         return userPaymentTimeStamp;
+    }
+
+    public int createUser(UserCreationRequestData requestData) {
+        final int[] userId = {0};
+        String sql = "INSERT INTO UserData(userkey,pwd_hash,fname,lname,emailid,location,avatar,phone,gender," +
+                "age,birthDate,userLanguage,area,city,state,country,testUser,isOperator) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        QueryParameter queryParameter = new QueryParameter()
+                .setString(requestData.getUserkey())
+                .setString(requestData.getPassword())
+                .setString(requestData.getFname())
+                .setString(requestData.getLname())
+                .setString(requestData.getEmailid())
+                .setString(requestData.getLocation())
+                .setString(requestData.getAvatar())
+                .setString(requestData.getPhone())
+                .setString(requestData.getGender())
+                .setInt(requestData.getAge())
+                .setString(requestData.getBirthDate())
+                .setString(requestData.getUserLanguage())
+                .setString(requestData.getArea())
+                .setString(requestData.getCity())
+                .setString(requestData.getState())
+                .setString(requestData.getCountry())
+                .setBoolean(requestData.isTestUser())
+                .setBoolean(requestData.isOperator());
+
+        new InsertTemplateImpl(sql,queryParameter) {
+            @Override
+            public void processResult() throws Exception {
+               userId[0] = this.resultSet.getInt(1);
+            }
+        };
+        return userId[0];
+    }
+
+    public void updateUserFcmAndDeviceToken(int userid, String fcmToken, String deviceToken) {
+        String sql = "Update UserData set fcmToken = ?, deviceToken = ? WHERE userid = ?";
+        QueryParameter queryParameter = new QueryParameter().setString(fcmToken).setString(deviceToken).setInt(userid);
+       new UpdateTemplateImpl(sql,queryParameter){};
     }
 }

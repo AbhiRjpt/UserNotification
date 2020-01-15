@@ -1,5 +1,7 @@
 package com.ranag.service;
 
+import com.mysql.jdbc.StringUtils;
+import com.ranag.common.Helper;
 import com.ranag.common.restClient.OrgRestClient;
 import com.ranag.common.restClient.OrgRestClientService;
 import com.ranag.dao.impl.UserDaoImpl;
@@ -8,8 +10,10 @@ import com.ranag.exception.InternalErrorCodes;
 import com.ranag.exception.InternalException;
 import com.ranag.rest.bean.commons.*;
 import com.ranag.rest.bean.request.SendPushNotificationRequestData;
+import com.ranag.rest.bean.request.UserCreationRequestData;
 import com.ranag.rest.bean.request.UserEventRequestData;
 import com.ranag.rest.bean.response.OrgResponseData;
+import com.ranag.rest.bean.response.UserCreationResponseData;
 import com.ranag.rest.bean.response.UserDbResponseData;
 import com.ranag.rest.bean.response.UserEventResponseData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +69,9 @@ public class UserService {
         int billId = 0;
         int feedBackId = 0;
         if((requestData != null) && (eventData != null)){
+            if((!StringUtils.isNullOrEmpty(requestData.getFcmToken())) || (!StringUtils.isNullOrEmpty(requestData.getDeviceToken()))) {
+                this.userDao.updateUserFcmAndDeviceToken(requestData.getUserid(), requestData.getFcmToken(), requestData.getDeviceToken());
+            }
             ExceptionData exceptionData = new ExceptionData();
             if((NounType.bill.equals(eventData.getNoun())) && (Verb.pay.equals(eventData.getVerb()))){
                billId = userDao.storeUserBillPaymentData(eventData);
@@ -136,5 +143,31 @@ public class UserService {
 
     private SendPushNotificationRequestData createNotificationData(int userid, String message) {
         return new SendPushNotificationRequestData(message, MobileNotificationType.PUBLIC_NOTIFICATION,null, Arrays.asList(userid),"DEV_ENV",0);
+    }
+
+    public OrgResponseData createUser(UserCreationRequestData requestData) throws Exception {
+        UserCreationResponseData responseData = new UserCreationResponseData();
+        if((!StringUtils.isNullOrEmpty(requestData.getUserkey())) && (!StringUtils.isNullOrEmpty(requestData.getPassword()))){
+            requestData.setPassword(Helper.getMD5(requestData.getPassword()));
+            int userId = this.userDao.createUser(requestData);
+            if(userId <= 0){
+                throw new InternalException("Error while creating user. Please try again",InternalErrorCodes.USER_CREATION_FAILED);
+            }
+            settingUpUserCreationResponseData(requestData, responseData, userId);
+
+        }else {
+            throw new InternalException("UserKey or Password is empty, please try again",InternalErrorCodes.USERKEY_OR_PASSWORD_MISSING);
+        }
+
+        return responseData;
+    }
+
+    private void settingUpUserCreationResponseData(UserCreationRequestData requestData, UserCreationResponseData responseData, int userId) {
+        responseData.setUserid(userId);
+        responseData.setUserKey(requestData.getUserkey());
+        responseData.setFname(requestData.getFname());
+        responseData.setLname(requestData.getLname());
+        responseData.setPhone(requestData.getPhone());
+        responseData.setEmailid(requestData.getEmailid());
     }
 }

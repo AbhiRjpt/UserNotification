@@ -2,6 +2,7 @@ package com.ranag.rest.controller;
 
 import com.ranag.exception.InternalErrorCodes;
 import com.ranag.exception.InternalException;
+import com.ranag.rest.bean.request.UserCreationRequestData;
 import com.ranag.rest.bean.request.UserEventRequestData;
 import com.ranag.rest.bean.response.OrgResponseData;
 import com.ranag.service.RequestValidationService;
@@ -67,6 +68,29 @@ public class UserServiceApiController {
                 throw new InternalException("UserId is not valid,Please try again.", InternalErrorCodes.INVALID_USER_ID);
             }
             orgResponseData = userService.submitUserEvent(requestData);
+            response = restResponseService.createSuccessResponse(orgResponseData);
+            return response;
+        } catch (Exception e) {
+            response = restResponseService.createFailureResponse(e, orgResponseData);
+            return response;
+        }
+
+    }
+
+
+    @PostMapping("/createUser")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response createUser(@RequestBody UserCreationRequestData requestData) {
+        Response response = null;
+        OrgResponseData orgResponseData = null;
+        try {
+
+            System.out.println("-----------------USER DATA-------------------");
+            if(requestData == null){
+                throw new InternalException("Request data is empty,Please try again.", InternalErrorCodes.INVALID_REQUEST_DATA);
+            }
+            orgResponseData = userService.createUser(requestData);
             response = restResponseService.createSuccessResponse(orgResponseData);
             return response;
         } catch (Exception e) {
